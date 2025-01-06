@@ -1,5 +1,7 @@
 package choo.stock;
 
+import choo.stock.persist.dao.Company;
+import choo.stock.persist.scraper.DividendScraper;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,7 +15,7 @@ public class StockApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(StockApplication.class, args);
-        try {
+      /*  try {
             String url = "https://finance.yahoo.com/quote/COKE/history/?frequency=1mo&period1=1704448348&period2=1736070739";
             Connection connection = Jsoup.connect(url);
             Document document = connection.get();
@@ -40,6 +42,15 @@ public class StockApplication {
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+
+        DividendScraper dividendScraper = new DividendScraper();
+        var result  = dividendScraper.scrap(Company.builder()
+                .ticker("O")
+                .build());
+        System.out.println(result);
+
     }
+
+
 }
