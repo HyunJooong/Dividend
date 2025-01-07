@@ -1,5 +1,6 @@
 package choo.stock.persist.entity;
 
+import choo.stock.persist.dao.Dividend;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,5 +25,9 @@ public class DividendEntity {
 
     private String dividend;
 
-
+    public DividendEntity(Long companyId, Dividend dividend) {
+        this.companyId = companyId;
+        this.date = dividend.getDate();
+        this.dividend = dividend.getDividend();
+    }
 }

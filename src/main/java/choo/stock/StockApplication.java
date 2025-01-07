@@ -1,12 +1,8 @@
 package choo.stock;
 
 import choo.stock.persist.dao.Company;
-import choo.stock.persist.scraper.DividendScraper;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import choo.stock.persist.scraper.Scraper;
+import choo.stock.persist.scraper.YahooScraper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -44,11 +40,18 @@ public class StockApplication {
             e.printStackTrace();
         }*/
 
-        DividendScraper dividendScraper = new DividendScraper();
+       /* YahooScraper dividendScraper = new YahooScraper();
         var result  = dividendScraper.scrap(Company.builder()
                 .ticker("O")
                 .build());
         System.out.println(result);
+
+
+        String title = "COKE"; // 예제 문자열
+        Scraper scraper = new YahooScraper();
+        var titleResult = scraper.scrapCompanyByTicker(title);
+        System.out.println(titleResult);*/
+
 
     }
 

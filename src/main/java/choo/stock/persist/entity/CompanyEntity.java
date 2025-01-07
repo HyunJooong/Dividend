@@ -1,5 +1,6 @@
 package choo.stock.persist.entity;
 
+import choo.stock.persist.dao.Company;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,4 +17,9 @@ public class CompanyEntity {
 
     @Column(unique = true)
     private String ticker;
+
+    public CompanyEntity(Company company){
+        this.name = company.getName();
+        this.ticker = company.getTicker();
+    }
 }
