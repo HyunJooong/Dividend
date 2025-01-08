@@ -8,6 +8,8 @@ import choo.stock.persist.repository.CompanyRepository;
 import choo.stock.persist.repository.DividendRepository;
 import choo.stock.persist.scraper.Scraper;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -31,6 +33,11 @@ public class CompanyService {
         return storeCompanyAndDividend(ticker);
     }
 
+    /**
+     * 회사 정보와 배당금 정보 추가
+     * @param ticker
+     * @return
+     */
     private Company storeCompanyAndDividend(String ticker) {
         //ticker를 기준으로 회사를 스크래핑
         Company company = yahooFinanceScraper.scrapCompanyByTicker(ticker);
@@ -41,8 +48,11 @@ public class CompanyService {
         ScrapedResult scrapedResult = yahooFinanceScraper.scrap(company);
 
         //스크래핑 결과
-        CompanyEntity companyEntity = companyRepository.save(new CompanyEntity(company));
-        List<DividendEntity> dividendEntities = scrapedResult.getDividends().stream()
+        CompanyEntity companyEntity = companyRepository
+                .save(new CompanyEntity(company));
+        List<DividendEntity> dividendEntities = scrapedResult
+                .getDividends()
+                .stream()
                 .map(e -> new DividendEntity(companyEntity.getId(), e))
                 .collect(Collectors.toList());
 
@@ -50,5 +60,11 @@ public class CompanyService {
 
 
         return company;
+    }
+
+    public Page<CompanyEntity> getAllCompany(final Pageable pageable) {
+
+        Page<CompanyEntity> getAllCompany = companyRepository.findAll(pageable);
+        return getAllCompany;
     }
 }

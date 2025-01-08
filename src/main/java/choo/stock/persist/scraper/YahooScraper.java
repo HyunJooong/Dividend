@@ -31,12 +31,14 @@ public class YahooScraper implements Scraper{
         try {
             long endTime = System.currentTimeMillis() / 1000;
 
-            String url = String.format(URL, company.getTicker(), START_TIME, endTime);
+            String url = String.format(URL, company.getTicker(),
+                    START_TIME, endTime);
             Connection connection = Jsoup.connect(url);
             Document document = connection.get();
 
             Elements parsingDivs = document
-                    .getElementsByAttributeValue("class", "table yf-j5d1ld noDl");
+                    .getElementsByAttributeValue("class",
+                            "table yf-j5d1ld noDl");
             Element tableElement = parsingDivs.get(0);
 
             Element tbody = tableElement.children().get(1);
@@ -49,12 +51,14 @@ public class YahooScraper implements Scraper{
                 } else {
                     String[] splits = txt.split(" ");
                     int month = Month.strToNumber(splits[0]); //static 메서드 객체 생성 필요 없음
-                    int day = Integer.parseInt(splits[1].replace(",", ""));
+                    int day = Integer.parseInt(splits[1]
+                            .replace(",", ""));
                     int year = Integer.parseInt(splits[2]);
                     String dividend = splits[3];
 
                     if (month < 0) {
-                        throw new RuntimeException("Unexpected Month enum value: " + splits[0]);
+                        throw new RuntimeException("Unexpected Month enum value: "
+                                + splits[0]);
                     } else {
                         dividends.add(Dividend.builder()
                                 .date(LocalDate.of(year, month, day))
@@ -77,9 +81,12 @@ public class YahooScraper implements Scraper{
         String url = String.format(SUMMRY_URL, ticker);
         try {
             Document document = Jsoup.connect(url).get();
-            Elements EleTitle = document.getElementsByAttributeValue("class","yf-xxbei9");
+            Elements EleTitle = document
+                    .getElementsByAttributeValue("class","yf-xxbei9");
 
-            String title = EleTitle.text().replaceAll(".*\\((.*?)\\).*", "$1").trim();
+            String title = EleTitle.text()
+                    .replaceAll(".*\\((.*?)\\).*", "$1")
+                    .trim();
 
             return Company.builder()
                     .ticker(ticker)
