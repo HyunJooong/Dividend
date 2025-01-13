@@ -1,4 +1,4 @@
-package choo.stock.service;
+package choo.stock.persist.service;
 
 import choo.stock.persist.dao.Company;
 import choo.stock.persist.dao.Dividend;

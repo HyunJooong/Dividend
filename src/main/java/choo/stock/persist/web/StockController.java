@@ -1,7 +1,7 @@
-package choo.stock.web;
+package choo.stock.persist.web;
 
 import choo.stock.persist.dao.ScrapedResult;
-import choo.stock.service.FinanceService;
+import choo.stock.persist.service.FinanceService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
