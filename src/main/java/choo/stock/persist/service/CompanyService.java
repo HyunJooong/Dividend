@@ -10,6 +10,7 @@ import choo.stock.persist.scraper.Scraper;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.Trie;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -65,6 +66,7 @@ public class CompanyService {
         return company;
     }
 
+    //Pageable 처리
     public Page<CompanyEntity> getAllCompany(final Pageable pageable) {
 
         Page<CompanyEntity> getAllCompany = companyRepository.findAll(pageable);
@@ -73,7 +75,7 @@ public class CompanyService {
 
     // 데이터 저장
     public void addAutoCompleteKeyword(String keyword) {
-       if (keyword == null || keyword.trim().isEmpty()) {
+        if (keyword == null || keyword.trim().isEmpty()) {
             throw new IllegalArgumentException("Keyword cannot be null or empty");
         }
         // Add the keyword to the trie
@@ -90,6 +92,15 @@ public class CompanyService {
     //데이터 삭제
     public void deleteAutoCompleteKeyword(String keyword) {
         this.trie.remove(keyword);
+    }
+
+    //이름 자동완성 조회
+    public List<String> getCompanyNameByKeyword(String keyword) {
+        Pageable limit = PageRequest.of(0,5); // pageable 5개까지...
+        Page<CompanyEntity> companyEntities = companyRepository.findByNameStartingWithIgnoreCase(keyword, limit);
+        return companyEntities.stream()
+                .map(CompanyEntity::getName)
+                .collect(Collectors.toList());
     }
 
 
